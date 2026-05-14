@@ -14,10 +14,10 @@ Testing is essential to any software development process, even with infrastructu
 ### Writing tests for IAC
 Like with application code, you can write two main types of tests for your infrastructure code: unit tests and integration tests.
 
-#### **Unit Tests**
+#### Unit Tests
 Unit tests focus on testing individual components or pieces of your CDK code. In this case, you're not deploying any cloud resources; instead, you're testing the logical structure of your CDK constructs. This could involve verifying that a particular resource, such as an S3 bucket or a Lambda function, is defined correctly.
 
-**Why Unit Tests?**
+Why Unit Tests?
 
 They are fast to execute because they don't interact with AWS services.
 
@@ -68,13 +68,13 @@ In this test, we create an instance of the CDK stack. Then, we use CDK Assertion
 ### Integration Tests
 While unit tests check the logical structure of your CDK code, integration tests verify that the cloud resources you defined are being deployed and configured correctly in your AWS environment. This means that your code will interact with real AWS services, and you will need to handle actual resources such as EC2 instances, S3 buckets, or Lambda functions.
 
-**Why Integration Tests?**
+Why Integration Tests?
 
 They ensure that your cloud infrastructure behaves as expected in a real environment.
 
 Integration tests catch issues that unit tests can't, such as permission problems or deployment failures.
 
-**Example of an Integration Test:** Let's say you want to test that a Lambda function in your CDK project can read from an S3 bucket. Your test would deploy the resources to AWS and confirm that the Lambda function behaves as expected.
+Example of an Integration Test: Let's say you want to test that a Lambda function in your CDK project can read from an S3 bucket. Your test would deploy the resources to AWS and confirm that the Lambda function behaves as expected.
 
 Example of how you might write such a test using AWS SDK to interact with real cloud resources:
 
@@ -104,18 +104,18 @@ test('Lambda function can read from S3 bucket', async () => {
 });
 ```
 
-**Note:** Integration tests are slower and more resource-intensive than unit tests because they interact with real AWS services. It's also essential to clean up any resources (such as S3 buckets or EC2 instances) after the tests are complete.
+Note: Integration tests are slower and more resource-intensive than unit tests because they interact with real AWS services. It's also essential to clean up any resources (such as S3 buckets or EC2 instances) after the tests are complete.
 
 ### How to use CDK Assertions to verify your setups
 AWS CDK comes with a testing utility called CDK Assertions, which helps you verify that your CDK code produces the correct CloudFormation template. CDK Assertions allow you to inspect the logical structure of the stack by comparing it against expected values, such as checking that certain resources are present or have specific properties.
 
 Key Functions of CDK Assertions
 
-**Checking for Resource Presence:** You can check whether a particular resource, like an S3 bucket, exists in the generated CloudFormation template.
+Checking for Resource Presence: You can check whether a particular resource, like an S3 bucket, exists in the generated CloudFormation template.
 
-**Verifying Resource Properties:** You can ensure that resources have the correct configurations, such as an EC2 instance with a specific instance type or a Lambda function with a particular runtime.
+Verifying Resource Properties: You can ensure that resources have the correct configurations, such as an EC2 instance with a specific instance type or a Lambda function with a particular runtime.
 
-**Counting Resources:** You can verify that the correct number of resources is defined, like ensuring your stack has exactly two IAM roles.
+Counting Resources: You can verify that the correct number of resources is defined, like ensuring your stack has exactly two IAM roles.
 
 Example of Using CDK Assertions: An example that uses CDK Assertions to verify that a CDK stack contains an S3 bucket with versioning enabled:
 
@@ -137,13 +137,13 @@ test('S3 Bucket Created', () => {
 We use resourceCountIs to assert that exactly one S3 bucket exists in the stack. You can write additional assertions to validate other resources or configurations.
 
 #### Snapshop testing
-**Ensuring Your CDK Code Generates the Expected Templates**
+Ensuring Your CDK Code Generates the Expected Templates
 
 Snapshot testing is a method used to capture a snapshot of your CDK-generated CloudFormation template and compare it against future versions. This ensures that any changes you make to your CDK code are intentional, and you can easily spot if something in your infrastructure has been modified accidentally.
 
 When you run a snapshot test, the test framework (like Jest) saves the generated CloudFormation template. On subsequent test runs, it compares the new template against the saved snapshot. If they differ, the test fails, and you can review the changes to decide if they were expected or need investigation.
 
-**Why Snapshot Testing?**
+Why Snapshot Testing?
 
 It provides a historical record of changes to your infrastructure definitions.
 
@@ -217,12 +217,12 @@ For integration tests, it's recommended to have a separate test AWS account or s
 ### Best practices for testing cloud resources
 Start with Unit Tests: Unit tests are fast and inexpensive, so always start by ensuring that your CDK code logically defines the right resources. Catching errors here will save you from deploying broken infrastructure to the cloud.
 
-**Use Snapshot Testing Wisely:** Snapshot testing is robust but can produce noisy failures if misused. Ensure you update snapshots only when the changes are intentional, and regularly review the snapshot files.
+Use Snapshot Testing Wisely: Snapshot testing is robust but can produce noisy failures if misused. Ensure you update snapshots only when the changes are intentional, and regularly review the snapshot files.
 
-**Set Up Automatic Cleanup for Integration Tests:** After running integration tests, clean up the created resources (such as S3 buckets or EC2 instances). You can automate this cleanup in your test scripts or use tools like AWS CloudFormation's automatic stack deletion feature.
+Set Up Automatic Cleanup for Integration Tests: After running integration tests, clean up the created resources (such as S3 buckets or EC2 instances). You can automate this cleanup in your test scripts or use tools like AWS CloudFormation's automatic stack deletion feature.
 
-**Test Permissions and Policies:** Cloud security is a significant concern. Write tests to validate that your IAM roles, policies, and permissions are configured correctly. Ensure that your resources have the least privileged access necessary to function properly.
+Test Permissions and Policies: Cloud security is a significant concern. Write tests to validate that your IAM roles, policies, and permissions are configured correctly. Ensure that your resources have the least privileged access necessary to function properly.
 
-**Use Feature Flags for Gradual Rollouts:** When deploying new features, use feature flags or separate environments (like staging and production) to control which parts of the infrastructure get updated. This minimizes risk and gives you time to test in production without affecting all users.
+Use Feature Flags for Gradual Rollouts: When deploying new features, use feature flags or separate environments (like staging and production) to control which parts of the infrastructure get updated. This minimizes risk and gives you time to test in production without affecting all users.
 
-**Integrate with Monitoring and Alerts:** Testing shouldn't end once your infrastructure is deployed. Use monitoring services like Amazon CloudWatch and AWS Config to verify your cloud resources' health and configuration continuously. Set up alerts for any unexpected changes or failures in your infrastructure.
+Integrate with Monitoring and Alerts: Testing shouldn't end once your infrastructure is deployed. Use monitoring services like Amazon CloudWatch and AWS Config to verify your cloud resources' health and configuration continuously. Set up alerts for any unexpected changes or failures in your infrastructure.
