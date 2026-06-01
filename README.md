@@ -11,14 +11,7 @@ Like with application code, you can write two main types of tests for your infra
 
 Unit tests focus on testing individual components or pieces of your CDK code. In this case, you're not deploying any cloud resources; instead, you're testing the logical structure of your CDK constructs. This could involve verifying that a particular resource, such as an S3 bucket or a Lambda function, is defined correctly.
 
-## About
 
-Place the code for this article in this repository.
-The original article export is saved as `article.md`.
-
-## Files
-
-Add your `.ipynb`, `.py`, `.yaml`, `.js`, `.ts`, or other project files here.
 
 ## Disclaimer
 
